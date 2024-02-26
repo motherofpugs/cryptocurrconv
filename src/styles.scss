@@ -12,4 +12,47 @@ body {
   background-color: #000;
   font-family: "Montserrat", sans-serif;
   color: $transparent-white;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.card {
+  background: rgb(28, 28, 28);
+  background: linear-gradient(279deg, rgb(4, 4, 4) 0%, rgb(7, 7, 7) 90%);
+  min-width: 23rem;
+  color: $transparent-white;
+  padding: 2rem;
+}
+
+.btn-custom {
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.8rem;
+  background-color: $blue;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.form-control {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 0.15rem solid $transparent-white;
+  color: #fff;
+}
+
+.form-control:focus {
+  background-color: transparent;
+  outline: none;
+  box-shadow: none;
+  border-bottom: 0.2rem solid $purple;
+  color: #fff;
 }
