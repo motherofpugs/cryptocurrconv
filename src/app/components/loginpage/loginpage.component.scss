@@ -1,0 +1,14 @@
+@import "../../../styles.scss";
+
+section {
+  height: 100dvh;
+  h1 {
+    font-family: "Red Hat Display", sans-serif;
+    color: #fff;
+    font-size: 4rem;
+    font-weight: 900;
+    span {
+      color: $purple;
+    }
+  }
+}

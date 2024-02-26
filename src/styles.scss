@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
+
+$offblack: #393939;
+$transparent-black: #00000065;
+$transparent-white: #ffffff65;
+$input-white: #ffffff56;
+$input-black: #00000056;
+$purple: #7000ff;
+$blue: #2dcdf0;
+
+body {
+  background-color: #000;
+  font-family: "Montserrat", sans-serif;
+  color: $transparent-white;
+}
