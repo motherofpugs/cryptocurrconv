@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap");
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 $offblack: #393939;
 $transparent-black: #00000065;
 $transparent-white: #ffffff65;
@@ -7,6 +13,8 @@ $input-white: #ffffff56;
 $input-black: #00000056;
 $purple: #7000ff;
 $blue: #2dcdf0;
+$blue-transparent: #2dccf072;
+$green: #00c868;
 
 body {
   background-color: #000;
@@ -25,20 +33,77 @@ body {
 
 .card {
   background: rgb(28, 28, 28);
-  background: linear-gradient(279deg, rgb(4, 4, 4) 0%, rgb(7, 7, 7) 90%);
+  background: linear-gradient(240deg, rgb(9, 9, 9) 0%, rgb(12, 12, 12) 80%);
   min-width: 23rem;
   color: $transparent-white;
   padding: 2rem;
+  position: relative;
+  border-radius: 0.8rem;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -0.3rem;
+    background: conic-gradient(
+      from var(--gradient-angle),
+      $purple,
+      $green,
+      $blue,
+      $purple
+    );
+    border-radius: inherit;
+    animation: rotation 6s linear infinite;
+    z-index: -1;
+  }
+  &::after {
+    filter: blur(5rem);
+  }
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
 }
 
 .btn-custom {
   border: 0;
   border-radius: 0.4rem;
   padding: 0.8rem;
-  background-color: $blue;
+  background-color: transparent;
   font-size: 1.2rem;
   font-weight: 500;
   color: #fff;
+  transition: all 0.5s, ease;
+  position: relative;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    background-color: transparent;
+    border-radius: 0.4rem;
+    transition: all 0.4s linear;
+  }
+  &-blue {
+    background-color: $blue;
+  }
+  &-green {
+    border: 0.15rem solid $green;
+    font-weight: 400;
+  }
+
+  &.btn-custom-blue:hover::before {
+    box-shadow: 0 0 0.5rem 0.3rem $blue-transparent;
+  }
+  &.btn-custom-green:hover::before {
+    box-shadow: 0 0 0.6rem 0.4rem $green;
+  }
 }
 
 .form-control {
@@ -53,6 +118,10 @@ body {
   background-color: transparent;
   outline: none;
   box-shadow: none;
-  border-bottom: 0.2rem solid $purple;
+  border-bottom: 0rem solid $purple;
   color: #fff;
+}
+
+.form-control::placeholder {
+  color: $input-white;
 }
