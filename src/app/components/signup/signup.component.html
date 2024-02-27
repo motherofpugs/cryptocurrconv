@@ -1,14 +1,29 @@
 <div class="card text-center">
   <h6>Sign up</h6>
-  <form>
+  <form [formGroup]="signupForm">
     <div class="mb-4">
-      <input class="form-control" type="text" placeholder="Username" />
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Username"
+        formControlName="username"
+      />
     </div>
     <div class="mb-4">
-      <input class="form-control" type="text" placeholder="Email" />
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Email"
+        formControlName="email"
+      />
     </div>
     <div class="mb-4">
-      <input class="form-control" type="text" placeholder="Password" />
+      <input
+        class="form-control"
+        type="text"
+        placeholder="Password"
+        formControlName="password"
+      />
     </div>
     <div class="form-check text-start mb-5">
       <input
