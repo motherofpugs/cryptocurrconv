@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginpageComponent,
     SignupComponent,
     LoginComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 <div class="card text-center">
   <h6>Sign up</h6>
-  <form [formGroup]="signupForm">
+  <form [formGroup]="signupForm" (ngSubmit)="signUp()">
     <div class="mb-4">
       <input
         class="form-control"
@@ -36,10 +36,17 @@
         Accept terms and conditions.
       </label>
     </div>
+    <button class="btn-custom btn-custom-blue mb-3 w-100" type="submit">
+      Sign up
+    </button>
   </form>
-  <button class="btn-custom btn-custom-blue mb-3">Sign up</button>
+
   <p>Already have an account?</p>
-  <button class="btn-custom btn-custom-green" routerLink="/loginpage/login">
+  <button
+    class="btn-custom btn-custom-green"
+    routerLink="/loginpage/login"
+    type="button"
+  >
     Log in
   </button>
 </div>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { userSignup } from 'src/app/models/userSignup.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -8,12 +11,20 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
+
+  constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.signupForm = new FormGroup({
       username: new FormControl(''),
       email: new FormControl(''),
       password: new FormControl(''),
     });
-    console.log(this.signupForm);
+  }
+
+  signUp(): void {
+    const newUser = this.signupForm.value;
+    this.authService.onSignup(newUser);
+    this.signupForm.reset();
+    this.router.navigate(['/loginpage/login']);
   }
 }
