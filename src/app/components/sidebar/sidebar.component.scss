@@ -1,0 +1,89 @@
+@import "../../../styles.scss";
+.card {
+  color: #fff;
+  &::after {
+    filter: blur(0);
+  }
+}
+
+.nav {
+  &-logo {
+    max-width: 4rem;
+    &-name {
+      font-family: "Red Hat Display", sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+  }
+  &-welcome-name {
+    font-weight: 500;
+    color: #fff;
+  }
+}
+li {
+  color: $transparent-white;
+  margin-bottom: 0.8rem;
+  a {
+    cursor: pointer;
+    transition: color;
+    transition: color 0.3s ease;
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.btn-custom {
+  &-green {
+    border: 0.15rem solid $purple;
+    font-size: 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+  }
+
+  &.btn-custom-green:hover::before {
+    box-shadow: 0 0 0.6rem 0.4rem $purple;
+  }
+}
+
+.saved-currencies {
+  h6 {
+    font-family: "Red Hat Display", sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-bottom: 1.8rem;
+  }
+  &-container {
+    .currency {
+      &-logo {
+        max-height: 1.8rem;
+        max-width: auto;
+      }
+      &-close {
+        max-height: 1.2rem;
+        max-width: auto;
+      }
+      &-name {
+        font-size: 1.1rem;
+      }
+      &-high img,
+      &-low img {
+        max-width: 1.6rem;
+      }
+      &-high p,
+      &-low p {
+        margin-bottom: 0;
+      }
+      &-link {
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        &:hover {
+          color: $blue;
+        }
+      }
+    }
+  }
+}
