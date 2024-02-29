@@ -18,10 +18,12 @@
 
       <hr />
       <li class="nav-welcome mt-4">
-        Hi <span class="nav-welcome-name">username</span> !
+        Hi <span class="nav-welcome-name">{{ loggedUser?.username }}</span> !
       </li>
       <li><a>Profile</a></li>
-      <button class="btn-custom btn-custom-green mb-3">Log out</button>
+      <button class="btn-custom btn-custom-green mb-3" (click)="logout()">
+        Log out
+      </button>
     </ul>
     <hr />
   </nav>

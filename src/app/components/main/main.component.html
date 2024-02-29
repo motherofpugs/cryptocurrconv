@@ -1,0 +1,42 @@
+<div class="main">
+  <ul class="tabs mb-3 d-flex justify-content-between align-items-center mb-4">
+    <li
+      (click)="selectTab(1)"
+      [ngClass]="{ active: selectedTab === 1 }"
+      class="main"
+    >
+      <img
+        src="../../../assets/tether-cryptocurrency.svg"
+        alt=""
+        class="icon"
+      />
+      Bitcoin
+      <img
+        src="../../../assets/close-svgrepo-com.svg"
+        alt=""
+        class="close-btn"
+      />
+    </li>
+    <li
+      (click)="selectTab(2)"
+      [ngClass]="{ active: selectedTab === 2 }"
+      class="feed"
+    >
+      Fdsfs
+    </li>
+    <li
+      (click)="selectTab(3)"
+      [ngClass]="{ active: selectedTab === 3 }"
+      class="gallery"
+    >
+      Rfsdfs
+    </li>
+    <li>
+      <img src="../../../assets/plus.svg" alt="" class="plus-icon" />
+    </li>
+  </ul>
+  <div class="card">
+    <app-dashboard></app-dashboard>
+    <app-calc></app-calc>
+  </div>
+</div>

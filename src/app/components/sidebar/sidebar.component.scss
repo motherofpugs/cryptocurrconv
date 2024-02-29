@@ -1,8 +1,11 @@
 @import "../../../styles.scss";
 .card {
+  min-width: 100%;
+  min-height: 90dvh;
   color: #fff;
   &::after {
-    filter: blur(0);
+    filter: blur(0.5rem);
+    animation: rotation 15s linear infinite;
   }
 }
 

@@ -7,11 +7,16 @@ import { LoginpageComponent } from './components/loginpage/loginpage.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MainComponent } from './components/main/main.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CalcComponent } from './components/calc/calc.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -21,14 +26,19 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     LoginComponent,
     HomeComponent,
     SidebarComponent,
+    MainComponent,
+    DashboardComponent,
+    CalcComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
+    HttpClientModule,
     NoopAnimationsModule,
     ReactiveFormsModule,
+    MatTabsModule,
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
