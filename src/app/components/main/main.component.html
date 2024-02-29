@@ -32,11 +32,17 @@
       Rfsdfs
     </li>
     <li>
-      <img src="../../../assets/plus.svg" alt="" class="plus-icon" />
+      <button mat-button [matMenuTriggerFor]="aboveMenu">
+        <img src="../../../assets/plus.svg" alt="" class="plus-icon" />
+      </button>
+      <mat-menu #aboveMenu="matMenu" yPosition="above">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
     </li>
   </ul>
   <div class="card">
-    <app-dashboard></app-dashboard>
+    <app-dashboard [lineChartData]="lineChartData"></app-dashboard>
     <app-calc></app-calc>
   </div>
 </div>

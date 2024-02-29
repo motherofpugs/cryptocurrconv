@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,20 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  lineChartData = [
-    {
-      name: 'Series 1',
-      series: [
-        { name: '2010', value: 100 },
-        { name: '2011', value: 200 },
-      ],
-    },
-    {
-      name: 'Series 2',
-      series: [
-        { name: '2010', value: 200 },
-        { name: '2011', value: 300 },
-      ],
-    },
-  ];
+  @Input() lineChartData: any;
 }
