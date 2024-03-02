@@ -5,6 +5,7 @@ export interface SymbolData {
   asset_id_base: string;
   asset_id_quote: string;
   symbol_id_exchange: string;
+  price: number;
 }
 
 export interface OHLCVData {
@@ -18,4 +19,9 @@ export interface OHLCVData {
   price_close: number;
   volume_traded: number;
   trades_count: number;
+}
+
+export interface SelectedId {
+  name: string;
+  rate: number;
 }

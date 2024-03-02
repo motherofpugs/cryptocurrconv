@@ -1,12 +1,17 @@
 <p>dashboard works!</p>
-<ngx-charts-line-chart
-  [results]="lineChartData"
-  [xAxis]="true"
-  [yAxis]="true"
-  xAxisLabel="Date"
-  yAxisLabel="Value"
-  [legend]="true"
-  scheme="neons"
-  [animations]="true"
-  [gradient]="true"
-></ngx-charts-line-chart>
+<div style="max-height: 50rem">
+  <ngx-charts-line-chart
+    [results]="lineChartData"
+    [xAxis]="true"
+    [yAxis]="true"
+    xAxisLabel="Date"
+    yAxisLabel="Value"
+    [legend]="false"
+    scheme="neons"
+    [animations]="true"
+    [gradient]="true"
+    [autoScale]="true"
+    [trimYAxisTicks]="true"
+    [trimXAxisTicks]="true"
+  ></ngx-charts-line-chart>
+</div>
