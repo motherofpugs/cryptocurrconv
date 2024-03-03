@@ -65,6 +65,9 @@ li {
       &-close {
         max-height: 1.2rem;
         max-width: auto;
+        &:hover {
+          transform: scale(1.1);
+        }
       }
       &-name {
         font-size: 1.1rem;
@@ -76,16 +79,6 @@ li {
       &-high p,
       &-low p {
         margin-bottom: 0;
-      }
-      &-link {
-        cursor: pointer;
-        text-decoration: none;
-        color: #fff;
-        font-weight: 500;
-        transition: color 0.3s ease;
-        &:hover {
-          color: $blue;
-        }
       }
     }
   }

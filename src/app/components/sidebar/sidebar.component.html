@@ -35,15 +35,15 @@
         class="currency d-flex flex-column gap-3"
       >
         <div class="d-flex gap-2 align-items-center">
-          <img
+          <!-- <img
             src="../../../assets/tether-cryptocurrency.svg"
             alt=""
             class="currency-logo"
-          />
+          /> -->
           <p class="currency-name m-0">{{ crypto.symbol }}</p>
           <a
-            (click)="onCloseSavedCurr(crypto.symbol)"
             class="ms-auto align-self-start"
+            (click)="onCloseSavedCurr(crypto.symbol)"
           >
             <img
               src="../../../assets/close-svgrepo-com.svg"
@@ -61,7 +61,7 @@
           <p>Low</p>
           <p class="ms-auto">{{ crypto.price_low }}</p>
         </div>
-        <a class="ms-auto currency-link"> See more</a>
+
         <hr class="mt-0" />
       </div>
     </div>

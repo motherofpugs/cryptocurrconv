@@ -2,6 +2,7 @@ import { LineChartData, SelectedId } from './../../models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { symbol } from 'd3-shape';
 import { OHLCVData, SymbolData } from 'src/app/models/currency.model';
+import { userSignup } from 'src/app/models/userSignup.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 
@@ -11,6 +12,7 @@ import { CurrencyService } from 'src/app/services/currency.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+  loggedInUser!: userSignup | null;
   symbols!: SymbolData[];
   asset_ids: string[] = [];
   selectedTab?: LineChartData[];
@@ -24,6 +26,9 @@ export class MainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.auth.loggedInUser.subscribe((loggedInUser) => {
+      this.loggedInUser = loggedInUser;
+    });
     this.currencyService.getAllSymbols().subscribe((data) => {
       this.symbols = data;
       this.asset_ids = [];
@@ -51,34 +56,44 @@ export class MainComponent implements OnInit {
     }
   }
   onClickId(symbolId: string) {
-    this.currencyService.getOHLCVData(symbolId).subscribe((data) => {
-      console.log(data);
-      this.lineChartData = [
-        {
-          name: symbolId,
-          series: data.map((item: OHLCVData) => ({
-            name: new Date(item.time_period_start).toLocaleDateString(),
-            value: item.price_close,
-          })),
-        },
-      ];
-      this.lineChartDatas.push(this.lineChartData);
-      this.symbols.forEach((symbol) => {
-        if (symbol.asset_id_base === symbolId) {
-          this.selectedId = {
-            name: symbol.asset_id_base,
-            rate: symbol.price,
-          };
+    if (!this.openedTabs.includes(symbolId)) {
+      this.currencyService.getOHLCVData(symbolId).subscribe((data) => {
+        console.log(data);
+        this.lineChartData = [
+          {
+            name: symbolId,
+            series: data.map((item: OHLCVData) => ({
+              name: new Date(item.time_period_start).toLocaleDateString(),
+              value: item.price_close,
+            })),
+          },
+        ];
+        this.lineChartDatas.push(this.lineChartData);
+        this.symbols.forEach((symbol) => {
+          if (symbol.asset_id_base === symbolId) {
+            this.selectedId = {
+              name: symbol.asset_id_base,
+              rate: symbol.price,
+            };
+          }
+        });
+        this.openedTabs.push(symbolId);
+        const tab = this.lineChartDatas.find((data) =>
+          data.some((chart) => chart.name === symbolId)
+        );
+        if (tab) {
+          this.selectedTab = tab;
         }
       });
-      this.openedTabs.push(symbolId);
-      const tab = this.lineChartDatas.find((data) =>
-        data.some((chart) => chart.name === symbolId)
-      );
-      if (tab) {
-        this.selectedTab = tab;
-      }
-    });
+    } else {
+      this.lineChartDatas.forEach((data) => {
+        data.forEach((tab) => {
+          if (tab.name === symbolId) {
+            this.selectedTab = data;
+          }
+        });
+      });
+    }
   }
 
   onCloseTab(tab: string) {
@@ -95,6 +110,10 @@ export class MainComponent implements OnInit {
   }
 
   onSaveCrypto() {
-    if (this.selectedId) this.auth.saveCrypto(this.selectedId.name);
+    if (
+      this.selectedId &&
+      !this.loggedInUser?.saved.includes(this.selectedId.name)
+    )
+      this.auth.saveCrypto(this.selectedId.name);
   }
 }
