@@ -2,16 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OHLCVData, SymbolData } from '../models/currency.model';
+import { WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyService {
   private baseUrl = 'https://rest.coinapi.io/';
-
+  private apiKey = 'CB0DC487-D785-4A57-8C3A-F8DE4BEB5978';
   private headers = {
-    'X-CoinAPI-Key': 'CB0DC487-D785-4A57-8C3A-F8DE4BEB5978',
+    'X-CoinAPI-Key': this.apiKey,
   };
+  private wsUrl = 'wss://ws.coinapi.io/v1/';
+  ws!: WebSocketSubject<any>;
 
   constructor(private http: HttpClient) {}
 
@@ -27,5 +30,27 @@ export class CurrencyService {
     ).toISOString();
     const url = `${this.baseUrl}v1/ohlcv/BITSTAMP_SPOT_${symbolId}_USD/history?period_id=1DAY&time_start=${startDate}&time_end=${endDate}`;
     return this.http.get<OHLCVData[]>(url, { headers: this.headers });
+  }
+
+  wsConnect(cryptos: string[]) {
+    this.ws = new WebSocketSubject(this.wsUrl);
+    const savedCryptoIds = cryptos.map(
+      (crypto) => `BITSTAMP_SPOT_${crypto}_USD$`
+    );
+    console.log('saved', savedCryptoIds);
+    const message = {
+      type: 'hello',
+      apikey: this.apiKey,
+      heartbeat: false,
+      subscribe_data_type: ['ohlcv'],
+      subscribe_filter_symbol_id: savedCryptoIds,
+      subscribe_filter_period_id: ['1MIN'],
+    };
+    console.log('wsmessage:', message);
+    this.ws.next(message);
+    return this.ws;
+  }
+  wsClose(): void {
+    this.ws.complete();
   }
 }

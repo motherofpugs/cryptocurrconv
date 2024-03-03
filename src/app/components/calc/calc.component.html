@@ -1,20 +1,26 @@
 <div>
   <h5>Calculate it</h5>
-  <form class="px-5">
+  <form class="px-5" [formGroup]="calcForm">
     <div class="mb-3">
-      <label for="from" class="form-label">From</label>
+      <label for="from" class="form-label">Pay</label>
       <div class="d-flex align-items-center justify-content-center gap-4">
-        <input type="text" class="form-control" placeholder="USD" />
-        <div class="exchange-container">USD</div>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="from"
+          placeholder="Enter amount"
+        />
+        <div class="exchange-container">{{ "USD" }}</div>
       </div>
     </div>
     <div class="mb-3">
-      <label for="to" class="form-label">To</label>
+      <label for="to" class="form-label">Get</label>
       <div class="d-flex align-items-center justify-content-center gap-4">
         <input
-          type="text"
+          type="number"
           class="form-control"
-          [placeholder]="selectedId.name"
+          formControlName="to"
+          placeholder="{{ selectedId.name }}"
         />
         <div class="exchange-container">{{ selectedId.name }}</div>
       </div>

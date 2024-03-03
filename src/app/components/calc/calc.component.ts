@@ -1,5 +1,11 @@
 import { SelectedId } from './../../models/currency.model';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,16 +13,39 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './calc.component.html',
   styleUrls: ['./calc.component.scss'],
 })
-export class CalcComponent implements OnInit {
+export class CalcComponent implements OnInit, OnChanges {
   @Input() selectedId!: SelectedId;
   calcForm!: FormGroup;
-  ngOnInit(): void {
-    this.calcForm = new FormGroup({
-      from: new FormControl(1),
-      to: new FormControl(this.selectedId.rate),
-    });
+  rate!: number;
 
-    this.calcForm.
+  ngOnInit(): void {
+    this.initializeForm();
   }
-  
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedId']) {
+      this.initializeForm();
+    }
+  }
+
+  private initializeForm(): void {
+    if (this.selectedId) {
+      this.calcForm = new FormGroup({
+        from: new FormControl(1),
+        to: new FormControl(this.selectedId?.rate),
+      });
+
+      this.calcForm.get('from')?.valueChanges.subscribe((value) => {
+        const convertedValue = value * this.selectedId.rate;
+        this.calcForm.get('to')?.setValue(convertedValue, { emitEvent: false });
+      });
+
+      this.calcForm.get('to')?.valueChanges.subscribe((value) => {
+        const convertedValue = value / this.selectedId.rate;
+        this.calcForm
+          .get('from')
+          ?.setValue(convertedValue, { emitEvent: false });
+      });
+    }
+  }
 }

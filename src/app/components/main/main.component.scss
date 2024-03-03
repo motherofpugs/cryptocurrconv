@@ -76,6 +76,31 @@
   height: 1.2rem;
 }
 
-.li:last-child {
-  min-height: 50rem;
+.dashboard-text {
+  line-height: 1.8;
+  color: $transparent-white;
+  h5 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+    span {
+      color: $blue;
+    }
+  }
+  p {
+    margin-bottom: 1.2rem;
+  }
+  li {
+    &::marker {
+      color: $green;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    span {
+      color: #fff;
+      font-weight: 500;
+    }
+  }
 }

@@ -1,7 +1,9 @@
-<p>dashboard works!</p>
-<div style="max-height: 50rem">
+<h5 class="mb-3">
+  See the changes for {{ selectedTab ? selectedTab[0].name : "" }}
+</h5>
+<div *ngIf="selectedTab" style="max-height: 50rem">
   <ngx-charts-line-chart
-    [results]="lineChartData"
+    [results]="selectedTab"
     [xAxis]="true"
     [yAxis]="true"
     xAxisLabel="Date"

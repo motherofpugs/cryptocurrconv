@@ -1,8 +1,9 @@
 <div class="main">
   <ul class="tabs mb-3 d-flex justify-content-between align-items-center mb-4">
     <li
-      (click)="selectTab(1)"
-      [ngClass]="{ active: selectedTab === 1 }"
+      *ngFor="let tab of openedTabs"
+      (click)="selectTab(tab)"
+      [ngClass]="{ active: selectedTab?.[0]?.name === tab }"
       class="main"
     >
       <img
@@ -10,27 +11,15 @@
         alt=""
         class="icon"
       />
-      Bitcoin
+      {{ tab | titlecase }}
       <img
         src="../../../assets/close-svgrepo-com.svg"
         alt=""
         class="close-btn"
+        (click)="onCloseTab(tab)"
       />
     </li>
-    <li
-      (click)="selectTab(2)"
-      [ngClass]="{ active: selectedTab === 2 }"
-      class="feed"
-    >
-      Fdsfs
-    </li>
-    <li
-      (click)="selectTab(3)"
-      [ngClass]="{ active: selectedTab === 3 }"
-      class="gallery"
-    >
-      Rfsdfs
-    </li>
+
     <li>
       <button mat-button [matMenuTriggerFor]="beforeMenu">
         <img src="../../../assets/plus.svg" alt="" class="plus-icon" />
@@ -47,7 +36,56 @@
     </li>
   </ul>
   <div class="card">
-    <app-dashboard [lineChartData]="lineChartData"></app-dashboard>
-    <app-calc [selectedId]="selectedId"></app-calc>
+    <div
+      *ngIf="!selectTab || !selectedId || openedTabs.length === 0"
+      class="dashboard-text text-center"
+    >
+      <h5>
+        Unlock the <span>Power of Cryptocurrencies</span> with
+        <span>Crypto App</span> !
+      </h5>
+      <p>
+        Explore the world of cryptocurrencies with ease. Our app provides you
+        with the tools to track the performance of various cryptocurrencies and
+        make informed decisions. Here's how you can get started:
+      </p>
+      <ol class="text-start">
+        <li>
+          <span>Select a Currency:</span> Click the plus icon to choose a
+          cryptocurrency. Explore Bitcoin, Ethereum, and more.
+        </li>
+        <li>
+          <span>Track Weekly Changes:</span> Visualize your currency's
+          performance over the last week.
+        </li>
+        <li>
+          <span>Compare to USD:</span> See how your currency stacks up against
+          the US dollar.
+        </li>
+        <li>
+          <span>Save for Updates:</span>
+          Save your currency to receive real-time updates on price changes every
+          minute.
+        </li>
+      </ol>
+    </div>
+    <app-dashboard
+      *ngIf="selectedTab"
+      [lineChartDatas]="lineChartDatas"
+      [selectedTab]="selectedTab"
+      class="mb-5"
+    ></app-dashboard>
+    <app-calc
+      *ngIf="selectedTab && selectedId"
+      [selectedId]="selectedId"
+      class="mb-5"
+    ></app-calc>
+    <button
+      *ngIf="selectedTab"
+      class="btn-custom btn-custom-blue"
+      (click)="onSaveCrypto()"
+    >
+      Save
+    </button>
   </div>
 </div>

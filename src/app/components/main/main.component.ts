@@ -1,7 +1,8 @@
-import { SelectedId } from './../../models/currency.model';
+import { LineChartData, SelectedId } from './../../models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { symbol } from 'd3-shape';
 import { OHLCVData, SymbolData } from 'src/app/models/currency.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
@@ -12,40 +13,43 @@ import { CurrencyService } from 'src/app/services/currency.service';
 export class MainComponent implements OnInit {
   symbols!: SymbolData[];
   asset_ids: string[] = [];
-  selectedTab = 1;
-  lineChartData: any[] = [];
-  selectedId!: SelectedId;
-  constructor(private currencyService: CurrencyService) {}
+  selectedTab?: LineChartData[];
+  openedTabs: string[] = [];
+  lineChartData!: LineChartData[];
+  lineChartDatas: LineChartData[][] = [];
+  selectedId!: SelectedId | undefined;
+  constructor(
+    private currencyService: CurrencyService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // this.currencyService.getAllSymbols().subscribe((data) => {
-    //   this.symbols = data;
-    //   this.asset_ids = [];
-    //   this.symbols.forEach((symbol) => {
-    //     this.asset_ids.push(symbol.asset_id_base);
-    //   });
-    //   console.log(this.asset_ids); // This will contain unique exchange_ids
-    //   console.log(this.symbols);
-    // });
-  }
-  //   this.currencyService.getOHLCVData('BTC').subscribe((data) => {
-  //     console.log(data);
-  //     this.lineChartData = [
-  //       {
-  //         name: 'ETH',
-  //         series: data.map((item: OHLCVData) => ({
-  //           name: new Date(item.time_period_start).toLocaleDateString(),
-  //           value: item.price_close,
-  //         })),
-  //       },
-  //     ];
-  //   });
-  // }
-
-  selectTab(tabNummber: number) {
-    this.selectedTab = tabNummber;
+    this.currencyService.getAllSymbols().subscribe((data) => {
+      this.symbols = data;
+      this.asset_ids = [];
+      this.symbols.forEach((symbol) => {
+        this.asset_ids.push(symbol.asset_id_base);
+      });
+    });
   }
 
+  selectTab(tabName: string) {
+    const tab = this.lineChartDatas.find((data) =>
+      data.some((chart) => chart.name === tabName)
+    );
+    if (tab) {
+      this.selectedTab = tab;
+    }
+    const symbol = this.symbols.find(
+      (symbol) => symbol.asset_id_base === tabName
+    );
+    if (symbol) {
+      this.selectedId = {
+        name: symbol.asset_id_base,
+        rate: symbol.price,
+      };
+    }
+  }
   onClickId(symbolId: string) {
     this.currencyService.getOHLCVData(symbolId).subscribe((data) => {
       console.log(data);
@@ -58,15 +62,39 @@ export class MainComponent implements OnInit {
           })),
         },
       ];
+      this.lineChartDatas.push(this.lineChartData);
       this.symbols.forEach((symbol) => {
-        if (symbol.exchange_id === symbolId) {
+        if (symbol.asset_id_base === symbolId) {
           this.selectedId = {
-            name: symbol.exchange_id,
+            name: symbol.asset_id_base,
             rate: symbol.price,
           };
         }
       });
+      this.openedTabs.push(symbolId);
+      const tab = this.lineChartDatas.find((data) =>
+        data.some((chart) => chart.name === symbolId)
+      );
+      if (tab) {
+        this.selectedTab = tab;
+      }
     });
-    console.log(this.lineChartData);
+  }
+
+  onCloseTab(tab: string) {
+    const index = this.openedTabs.indexOf(tab);
+    if (index !== -1) {
+      this.openedTabs.splice(index, 1);
+      if (this.openedTabs.length > 0) {
+        const selectedTabName = this.openedTabs[Math.max(0, index - 1)];
+        this.selectTab(selectedTabName);
+      } else {
+        this.selectedTab = undefined;
+      }
+    }
+  }
+
+  onSaveCrypto() {
+    if (this.selectedId) this.auth.saveCrypto(this.selectedId.name);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { LineChartData } from 'src/app/models/currency.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,5 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  @Input() lineChartData: any;
+  @Input() lineChartDatas!: LineChartData[][];
+
+  @Input() selectedTab!: LineChartData[] | undefined;
 }

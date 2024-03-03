@@ -24,6 +24,8 @@ export class AuthService {
       console.log('Username is already taken');
       return;
     }
+
+    newUser.saved = [];
     this.users.push(newUser);
     localStorage.setItem('users', JSON.stringify(this.users));
   }
@@ -51,5 +53,23 @@ export class AuthService {
     localStorage.removeItem('loggedUser');
     console.log('logged out');
     this.loggedInUser = undefined;
+  }
+
+  saveCrypto(crypto: string) {
+    if (this.loggedInUser) {
+      if (!this.loggedInUser.saved) {
+        this.loggedInUser.saved = [];
+      }
+      this.loggedInUser.saved.push(crypto);
+
+      const userIndex = this.users.findIndex(
+        (user) => user.username === this.loggedInUser?.username
+      );
+      if (userIndex !== -1) {
+        this.users[userIndex] = this.loggedInUser;
+        localStorage.setItem('users', JSON.stringify(this.users));
+      }
+      localStorage.setItem('loggedUser', JSON.stringify(this.loggedInUser));
+    }
   }
 }
