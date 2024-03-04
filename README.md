@@ -1,3 +1,5 @@
+!IMPORTANT: Please note that the gradient animation may not be supported on Mozilla Firefox yet.
+
 # Cryptocurrconv
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.8.

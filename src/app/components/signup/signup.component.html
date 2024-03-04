@@ -36,7 +36,11 @@
         Accept terms and conditions.
       </label>
     </div>
-    <button class="btn-custom btn-custom-blue mb-3 w-100" type="submit">
+    <button
+      class="btn-custom btn-custom-blue mb-3 w-100"
+      type="submit"
+      [disabled]="signupForm.invalid"
+    >
       Sign up
     </button>
   </form>

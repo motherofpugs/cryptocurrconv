@@ -29,7 +29,11 @@
         Remember me
       </label>
     </div>
-    <button class="btn-custom btn-custom-blue mb-3 w-100" type="submit">
+    <button
+      class="btn-custom btn-custom-blue mb-3 w-100"
+      type="submit"
+      [disabled]="loginForm.invalid"
+    >
       Log in
     </button>
   </form>
