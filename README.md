@@ -1,6 +1,6 @@
 # Crypto App
 
-I tried to implement the app based on a predetermined set of tasks in Angular. It's not completely finished yet, there are a few features that need to be rewritten or completed.
+I attempted to develop the app in Angular according to a predefined set of tasks. While it's not entirely finished, there are still several features that require rewriting or completion. Also, it's not responsive, except on the login page.
 ❗IMPORTANT: note that Mozilla Firefox doesn't support the color transition animation yet I've implemented.
 
 ## Start

@@ -50,6 +50,9 @@ li {
 }
 
 .saved-currencies {
+  h6 + p {
+    color: $transparent-white;
+  }
   h6 {
     font-family: "Red Hat Display", sans-serif;
     font-weight: 800;

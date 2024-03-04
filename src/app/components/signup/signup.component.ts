@@ -22,21 +22,16 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        this.validateUsername,
-      ]),
+      username: new FormControl('', [Validators.required]),
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
     this.users = this.authService.users;
   }
-
-  validateUsername(control: AbstractControl): ValidationErrors | null {
-    const username = control.value;
-    const existingUser = this.users.find((user) => user.username === username);
-    return existingUser ? { usernameTaken: true } : null;
+  get username(): AbstractControl | null {
+    return this.signupForm.get('username');
   }
+
   signUp(): void {
     const newUser: userSignup = this.signupForm.value;
     this.authService.onSignup(newUser);

@@ -25,6 +25,7 @@
   </nav>
   <div class="saved-currencies">
     <h6>Saved currencies</h6>
+    <p *ngIf="cryptoList.length == 0">None</p>
     <div class="saved-currencies-container">
       <div
         *ngFor="let crypto of cryptoList"
