@@ -106,7 +106,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   onCloseSavedCurr(crypto: string): void {
     const index = this.cryptoList.findIndex((item) => item.symbol === crypto);
-    if (index === 0) {
+    if (index === 0 && this.cryptoList.length < 1) {
       this.cryptoList = [];
       this.wsSubscription.unsubscribe();
       this.currService.wsClose();

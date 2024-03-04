@@ -80,10 +80,17 @@ export class AuthService {
     if (loggedInUser) {
       const index = loggedInUser.saved.indexOf(crypto);
       console.log(index);
-      index === 0
+      index === 0 && loggedInUser.saved.length < 1
         ? (loggedInUser.saved = [])
         : loggedInUser.saved.splice(index, 1);
       localStorage.setItem('loggedUser', JSON.stringify(loggedInUser));
+      const userIndex = this.users.findIndex(
+        (user) => user.username === loggedInUser?.username
+      );
+      if (userIndex !== -1) {
+        this.users[userIndex] = loggedInUser;
+        localStorage.setItem('users', JSON.stringify(this.users));
+      }
       this.loggedInUser.next(loggedInUser);
     }
   }
