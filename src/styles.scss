@@ -21,6 +21,7 @@ $green: #00c868;
 // }
 
 body {
+  min-height: 100vh;
   background-color: #000;
   font-family: "Montserrat", sans-serif;
   color: $transparent-white;
@@ -29,11 +30,6 @@ body {
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-}
-
-html,
-body {
-  min-height: 100%;
 }
 
 .card {

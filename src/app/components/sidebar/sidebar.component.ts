@@ -1,4 +1,3 @@
-import { symbol } from 'd3-shape';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -12,8 +11,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  @Input() onclickId!: any;
-
   loggedUser!: userSignup | null;
   wsSubscription!: Subscription;
   cryptoList: { symbol: string; price_high?: number; price_low?: number }[] =
@@ -22,14 +19,37 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loggedInUser.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
-      if (this.loggedUser && this.loggedUser.saved) {
+      if (
+        this.loggedUser &&
+        this.loggedUser.saved.length > 0 &&
+        !this.wsSubscription
+      ) {
         this.cryptoList = this.loggedUser.saved.map((symbol: string) => ({
           symbol,
           price_high: 0,
           price_low: 0,
         }));
-        if (!this.wsSubscription && this.loggedUser.saved.length > 0)
-          this.connectWebSocket();
+
+        this.connectWebSocket();
+      } else if (
+        this.loggedUser &&
+        this.loggedUser.saved.length > 0 &&
+        this.wsSubscription
+      ) {
+        const newCurrencies = this.loggedUser.saved.filter(
+          (currency) =>
+            !this.cryptoList.some((crypto) => crypto.symbol === currency)
+        );
+        newCurrencies.forEach((currency) => {
+          this.cryptoList.push({
+            symbol: currency,
+            price_high: 0,
+            price_low: 0,
+          });
+        });
+        this.wsSubscription.unsubscribe();
+        this.currService.wsClose();
+        this.connectWebSocket();
       }
     });
   }
@@ -52,28 +72,29 @@ export class SidebarComponent implements OnInit {
             console.log('webSocket', message);
             this.updateCryptoList(message);
           },
-          (error) => console.error('error:', error),
-          () => console.log('done')
+          (error) => console.error('error:', error)
         );
     }
   }
 
   updateCryptoList(message: any): void {
+    console.log('MESSAGETYPE', message);
     const { symbol_id, price_high, price_low } = message;
-    const symbolParts = symbol_id.split('_');
-    const currencySymbol = symbolParts[2];
+    if (symbol_id) {
+      const symbolParts = symbol_id.split('_');
+      const currencySymbol = symbolParts[2];
 
-    const existingCrypto = this.cryptoList.find(
-      (crypto) => crypto.symbol === currencySymbol
-    );
+      const existingCrypto = this.cryptoList.find(
+        (crypto) => crypto.symbol === currencySymbol
+      );
 
-    if (existingCrypto) {
-      existingCrypto.price_high = price_high;
-      existingCrypto.price_low = price_low;
-    } else {
-      this.cryptoList.push({ symbol: currencySymbol, price_high, price_low });
+      if (existingCrypto) {
+        existingCrypto.price_high = price_high;
+        existingCrypto.price_low = price_low;
+      } else {
+        this.cryptoList.push({ symbol: currencySymbol, price_high, price_low });
+      }
     }
-    console.log(this.cryptoList);
   }
 
   ngOnDestroy(): void {
@@ -90,8 +111,8 @@ export class SidebarComponent implements OnInit {
     } else {
       this.cryptoList.splice(index, 1);
     }
+    console.log(this.cryptoList);
 
-    console.log(crypto);
     this.authService.deleteCrypto(crypto);
   }
 }
