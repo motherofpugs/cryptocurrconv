@@ -9,7 +9,7 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 })
 export class CurrencyService {
   private baseUrl = 'https://rest.coinapi.io/';
-  private apiKey = 'FD316509-ABA0-4869-B26B-44A7E8882F5B';
+  private apiKey = '540349B3-A91A-4269-89C8-972BAA369D18';
   private headers = {
     'X-CoinAPI-Key': this.apiKey,
   };
