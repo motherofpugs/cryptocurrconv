@@ -1,6 +1,5 @@
 import { LineChartData, SelectedId } from './../../models/currency.model';
 import { Component, OnInit } from '@angular/core';
-import { symbol } from 'd3-shape';
 import { OHLCVData, SymbolData } from 'src/app/models/currency.model';
 import { userSignup } from 'src/app/models/userSignup.model';
 import { AuthService } from 'src/app/services/auth.service';

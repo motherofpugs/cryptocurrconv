@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { userSignup } from 'src/app/models/userSignup.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,14 +22,17 @@ export class SignupComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl('', [
+        Validators.required,
+        this.validateUsername,
+      ]),
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
     this.users = this.authService.users;
   }
 
-  validateUsername(control: FormControl) {
+  validateUsername(control: AbstractControl): ValidationErrors | null {
     const username = control.value;
     const existingUser = this.users.find((user) => user.username === username);
     return existingUser ? { usernameTaken: true } : null;

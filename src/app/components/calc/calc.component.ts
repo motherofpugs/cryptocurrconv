@@ -3,20 +3,24 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calc',
   templateUrl: './calc.component.html',
   styleUrls: ['./calc.component.scss'],
 })
-export class CalcComponent implements OnInit, OnChanges {
+export class CalcComponent implements OnInit, OnChanges, OnDestroy {
   @Input() selectedId!: SelectedId;
   calcForm!: FormGroup;
   rate!: number;
+  fromSub!: Subscription | undefined;
+  toSub!: Subscription | undefined;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -35,17 +39,28 @@ export class CalcComponent implements OnInit, OnChanges {
         to: new FormControl(this.selectedId?.rate),
       });
 
-      this.calcForm.get('from')?.valueChanges.subscribe((value) => {
-        const convertedValue = value * this.selectedId.rate;
-        this.calcForm.get('to')?.setValue(convertedValue, { emitEvent: false });
-      });
+      this.fromSub = this.calcForm
+        .get('from')
+        ?.valueChanges.subscribe((value) => {
+          const convertedValue = value * this.selectedId.rate;
+          this.calcForm
+            .get('to')
+            ?.setValue(convertedValue, { emitEvent: false });
+        });
 
-      this.calcForm.get('to')?.valueChanges.subscribe((value) => {
+      this.toSub = this.calcForm.get('to')?.valueChanges.subscribe((value) => {
         const convertedValue = value / this.selectedId.rate;
         this.calcForm
           .get('from')
           ?.setValue(convertedValue, { emitEvent: false });
       });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.fromSub || this.toSub) {
+      this.fromSub?.unsubscribe();
+      this.toSub?.unsubscribe();
     }
   }
 }

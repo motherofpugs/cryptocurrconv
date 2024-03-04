@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { userSignup } from 'src/app/models/userSignup.model';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { Subscription } from 'rxjs';
@@ -10,14 +10,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   loggedUser!: userSignup | null;
   wsSubscription!: Subscription;
   cryptoList: { symbol: string; price_high?: number; price_low?: number }[] =
     [];
+  authSub!: Subscription;
 
   ngOnInit(): void {
-    this.authService.loggedInUser.subscribe((loggedUser) => {
+    this.authSub = this.authService.loggedInUser.subscribe((loggedUser) => {
       this.loggedUser = loggedUser;
       if (
         this.loggedUser &&
@@ -100,6 +101,7 @@ export class SidebarComponent implements OnInit {
   ngOnDestroy(): void {
     this.wsSubscription.unsubscribe();
     this.currService.wsClose();
+    this.authSub.unsubscribe();
   }
 
   onCloseSavedCurr(crypto: string): void {
